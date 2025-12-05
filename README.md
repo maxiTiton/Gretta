@@ -2,12 +2,6 @@
 
 Sistema web completo para gestión de pedidos online de **Gretta**, cafetería, heladería y pastelería de autor.
 
-## 🛠️ Stack
-
-**Frontend:** React 18 · Vite · TailwindCSS · Zustand  
-**Backend:** Node.js · PostgreSQL · Supabase  
-**Servicios:** MercadoPago · Cloudinary · Vercel
-
 ## 🌟 Características
 
 ### Para Clientes

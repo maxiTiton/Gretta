@@ -9,11 +9,10 @@ import { Package } from 'lucide-react'
  * 
  * @param {Object} props
  * @param {Array} props.productos - Array de productos
- * @param {Function} props.onAddToCart - Función para agregar al carrito
  * @param {Function} [props.onViewDetail] - Función para ver detalle
  * @param {boolean} [props.loading] - Estado de carga
  */
-export default function ProductGrid({ productos, onAddToCart, onViewDetail, loading = false }) {
+export default function ProductGrid({ productos, onViewDetail, loading = false }) {
   // Loading state
   if (loading) {
     return (
@@ -70,7 +69,6 @@ export default function ProductGrid({ productos, onAddToCart, onViewDetail, load
         <ProductCard
           key={producto.id}
           producto={producto}
-          onAddToCart={onAddToCart}
           onViewDetail={onViewDetail}
         />
       ))}

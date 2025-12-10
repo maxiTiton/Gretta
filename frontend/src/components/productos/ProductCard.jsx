@@ -4,10 +4,12 @@ import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import { formatPrice } from '@/utils/formatters'
+import { useCartStore } from '@/store/cartStore'
 
 /**
  * ProductCard Component
  * Tarjeta de producto para grillas con overlay y badges
+ * Integrado con cartStore de Zustand para agregar al carrito
  * 
  * @param {Object} props
  * @param {Object} props.producto - Datos del producto
@@ -19,17 +21,17 @@ import { formatPrice } from '@/utils/formatters'
  * @param {string} props.producto.categoria - Categoría del producto
  * @param {boolean} props.producto.disponible - Si está disponible
  * @param {boolean} [props.producto.masVendido] - Si es más vendido
- * @param {Function} [props.onAddToCart] - Función para agregar al carrito
  * @param {Function} [props.onViewDetail] - Función al ver detalle
  * @param {string} [props.className] - Clases CSS adicionales
  */
 export default function ProductCard({
   producto,
-  onAddToCart,
   onViewDetail,
   className = ''
 }) {
   const { id, nombre, descripcion, precio, imagen_url, categoria, disponible, masVendido } = producto
+  const addItem = useCartStore(state => state.addItem)
+  const openCart = useCartStore(state => state.openCart)
   
   // Mapear nombre de categoría
   const categoryNames = {
@@ -43,8 +45,10 @@ export default function ProductCard({
   
   const handleAddToCart = (e) => {
     e.stopPropagation()
-    if (disponible && onAddToCart) {
-      onAddToCart(producto)
+    if (disponible) {
+      addItem(producto)
+      // Abrir drawer automáticamente
+      openCart()
     }
   }
   

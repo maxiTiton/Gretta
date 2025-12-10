@@ -34,10 +34,24 @@ export function formatDate(date, formatString = 'dd/MM/yyyy') {
 /**
  * Formatear teléfono argentino
  * @param {string} phone - Teléfono a formatear
- * @returns {string} Teléfono formateado
+ * @returns {string} Teléfono formateado (ej: "(351) 123-4567")
  */
 export function formatPhone(phone) {
-  // TODO: Formatear teléfono (ej: +54 9 11 1234-5678)
+  if (!phone) return ''
+  
+  // Limpiar el teléfono de caracteres no numéricos
+  const cleaned = phone.replace(/\D/g, '')
+  
+  // Si empieza con 54, quitarlo (código de país)
+  const withoutCountry = cleaned.startsWith('54') ? cleaned.slice(2) : cleaned
+  
+  // Formatear según longitud
+  if (withoutCountry.length === 10) {
+    // Formato: (351) 123-4567
+    return `(${withoutCountry.slice(0, 3)}) ${withoutCountry.slice(3, 6)}-${withoutCountry.slice(6)}`
+  }
+  
+  // Si no tiene el formato esperado, devolver tal cual
   return phone
 }
 

@@ -1,19 +1,320 @@
+import { useNavigate } from 'react-router-dom'
+import {
+  Coffee,
+  IceCream,
+  Cake,
+  ChevronDown,
+  Award,
+  Heart,
+  Truck,
+  ShieldCheck,
+  ArrowRight,
+} from 'lucide-react'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
+import ProductCard from '@/components/productos/ProductCard'
+
 /**
  * Home Page
- * Página principal del sitio
+ * Página principal del sitio con hero, especialidades, productos y CTAs
  * 
- * TODO:
- * - Hero section con CTA
- * - Productos destacados
- * - Banner de promociones activas
- * - Sección "Sobre Gretta"
- * - Categorías principales
+ * TODO SEO:
+ * - Agregar meta tags (title, description, og:image)
+ * - Agregar structured data (JSON-LD)
  */
-
 export default function Home() {
+  const navigate = useNavigate()
+  
+  // Productos destacados mock
+  const productosDestacados = [
+    {
+      id: 1,
+      nombre: 'Café Espresso Premium',
+      precio: 1200,
+      imagen: 'https://placehold.co/400x300/2d4a6f/ffffff?text=Cafe+Espresso',
+      badge: 'Destacado',
+    },
+    {
+      id: 2,
+      nombre: 'Helado de Dulce de Leche',
+      precio: 2500,
+      imagen: 'https://placehold.co/400x300/e6a6b8/ffffff?text=Helado+DDL',
+      badge: 'Nuevo',
+    },
+    {
+      id: 3,
+      nombre: 'Torta Red Velvet',
+      precio: 4500,
+      imagen: 'https://placehold.co/400x300/b8d4c8/ffffff?text=Red+Velvet',
+      badge: 'Destacado',
+    },
+    {
+      id: 4,
+      nombre: 'Alfajores Artesanales',
+      precio: 800,
+      imagen: 'https://placehold.co/400x300/f5ccd4/ffffff?text=Alfajores',
+      badge: 'Nuevo',
+    },
+  ]
+  
+  // Especialidades
+  const especialidades = [
+    {
+      icon: Coffee,
+      title: 'Café de Especialidad',
+      description: 'Granos seleccionados y tostado artesanal',
+      link: '/productos?categoria=cafe',
+      color: 'text-blue',
+    },
+    {
+      icon: IceCream,
+      title: 'Helados Artesanales',
+      description: 'Sabores únicos y cremosos hechos en casa',
+      link: '/productos?categoria=helados',
+      color: 'text-pink',
+    },
+    {
+      icon: Cake,
+      title: 'Pastelería de Autor',
+      description: 'Tortas, tartas y dulces para cada ocasión',
+      link: '/productos?categoria=pasteleria',
+      color: 'text-green-pastel',
+    },
+  ]
+  
+  // Beneficios
+  const beneficios = [
+    {
+      icon: Award,
+      title: 'Calidad Premium',
+      description: 'Ingredientes seleccionados de primera calidad',
+    },
+    {
+      icon: Heart,
+      title: 'Hecho con Amor',
+      description: 'Cada producto es elaborado con dedicación',
+    },
+    {
+      icon: Truck,
+      title: 'Delivery Rápido',
+      description: 'Recibí tu pedido en el día',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Compra Segura',
+      description: 'Pagá con MercadoPago de forma segura',
+    },
+  ]
+  
+  const handleAddToCart = (producto) => {
+    // TODO: Implementar lógica de agregar al carrito
+    console.log('Agregar al carrito:', producto)
+  }
+  
   return (
-    <div>
-      {/* TODO: Implementar página home */}
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-b from-cream to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+            {/* Logo/Brand */}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-navy">
+              Gretta
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-xl sm:text-2xl lg:text-3xl text-blue font-medium">
+              Cafetería, Heladería y Pastelería de Autor
+            </p>
+            
+            {/* Description */}
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              Sabores únicos hechos con amor y dedicación. Descubrí nuestros productos artesanales.
+            </p>
+            
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+              <Button
+                size="lg"
+                variant="primary"
+                onClick={() => navigate('/productos')}
+                className="w-full sm:w-auto min-w-[200px]"
+              >
+                Ver Productos
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => navigate('/promos')}
+                className="w-full sm:w-auto min-w-[200px]"
+              >
+                Nuestras Promos
+              </Button>
+            </div>
+          </div>
+          
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <ChevronDown className="w-8 h-8 text-gray-400" />
+          </div>
+        </div>
+      </section>
+      
+      {/* Especialidades Section */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-navy mb-4">
+              Nuestras Especialidades
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Descubrí lo mejor de Gretta
+            </p>
+          </div>
+          
+          {/* Especialidades Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {especialidades.map((item, index) => {
+              const Icon = item.icon
+              return (
+                <Card
+                  key={index}
+                  hover
+                  className="text-center group cursor-pointer"
+                  onClick={() => navigate(item.link)}
+                >
+                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-50 mb-6 ${item.color} transition-all duration-300 group-hover:scale-110 group-hover:bg-cream`}>
+                    <Icon className="w-10 h-10" />
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-navy mb-3 font-display">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {item.description}
+                  </p>
+                  
+                  <span className="inline-flex items-center gap-2 text-pink font-medium group-hover:gap-3 transition-all">
+                    Ver más
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+      
+      {/* Productos Destacados Section */}
+      <section className="py-16 lg:py-24 bg-cream">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-navy mb-4">
+              Nuestros Favoritos
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Los productos más populares
+            </p>
+          </div>
+          
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
+            {productosDestacados.map((producto) => (
+              <ProductCard
+                key={producto.id}
+                producto={producto}
+                onAddToCart={handleAddToCart}
+                onClick={() => navigate(`/productos/${producto.id}`)}
+              />
+            ))}
+          </div>
+          
+          {/* View All Button */}
+          <div className="text-center">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => navigate('/productos')}
+              className="min-w-[250px]"
+            >
+              Ver todos los productos
+            </Button>
+          </div>
+        </div>
+      </section>
+      
+      {/* Por Qué Elegirnos Section */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-navy mb-4">
+              Por Qué Elegirnos
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Comprometidos con la excelencia en cada detalle
+            </p>
+          </div>
+          
+          {/* Benefits Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {beneficios.map((item, index) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={index}
+                  className="text-center group"
+                >
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-pink/10 mb-4 transition-transform duration-300 group-hover:scale-110">
+                    <Icon className="w-8 h-8 text-pink" />
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-navy mb-2">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+      
+      {/* CTA Final Section */}
+      <section className="py-20 lg:py-28 bg-blue text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold">
+              ¿Listo para disfrutar?
+            </h2>
+            
+            <p className="text-xl sm:text-2xl text-blue-100">
+              Hacé tu pedido ahora y recibilo en el día
+            </p>
+            
+            <div>
+              <Button
+                size="lg"
+                variant="secondary"
+                onClick={() => navigate('/productos')}
+                className="min-w-[250px] text-lg"
+              >
+                Hacer mi Pedido
+              </Button>
+            </div>
+            
+            <p className="text-sm text-blue-200">
+              🚚 Envío gratis en compras superiores a $5.000
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

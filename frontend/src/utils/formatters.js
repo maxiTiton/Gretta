@@ -9,11 +9,15 @@ import { es } from 'date-fns/locale'
 /**
  * Formatear precio en pesos argentinos
  * @param {number} price - Precio a formatear
- * @returns {string} Precio formateado (ej: "$1.234,56")
+ * @returns {string} Precio formateado (ej: "$1.234")
  */
 export function formatPrice(price) {
-  // TODO: Implementar formateo de precio con separadores de miles
-  return `$${price}`
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(price)
 }
 
 /**

@@ -1,18 +1,41 @@
+import { Outlet } from 'react-router-dom'
+import Navbar from './Navbar'
+import Footer from './Footer'
+
 /**
  * Layout Component
- * Componente contenedor principal con Navbar y Footer
- * Envuelve todas las páginas públicas
+ * Componente contenedor principal que envuelve todas las páginas
+ * Incluye Navbar, contenido principal y Footer
  * 
- * TODO:
- * - Implementar Outlet de React Router
- * - Agregar estructura de layout con Navbar y Footer
- * - Manejar estados de loading global
+ * @example
+ * // En App.jsx o router.jsx
+ * <Layout>
+ *   <Routes>
+ *     <Route path="/" element={<Home />} />
+ *     <Route path="/productos" element={<Productos />} />
+ *   </Routes>
+ * </Layout>
+ * 
+ * @example
+ * // Con React Router Outlet
+ * <Route element={<Layout />}>
+ *   <Route path="/" element={<Home />} />
+ *   <Route path="/productos" element={<Productos />} />
+ * </Route>
  */
-
 export default function Layout() {
   return (
-    <div>
-      {/* TODO: Implementar layout con Navbar, main content y Footer */}
+    <div className="flex flex-col min-h-screen bg-cream">
+      {/* Fixed Navbar */}
+      <Navbar />
+      
+      {/* Main Content Area */}
+      <main className="flex-grow pt-16">
+        <Outlet />
+      </main>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

@@ -31,9 +31,11 @@ export default function Button({
   size = 'md',
   disabled = false,
   loading = false,
+  fullWidth = false,
   className = '',
   type = 'button',
   onClick,
+  leftIcon,
   ...props
 }) {
   const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
@@ -46,15 +48,16 @@ export default function Button({
   }
   
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+    sm: 'px-3 py-1.5 text-sm gap-1.5',
+    md: 'px-6 py-3 text-base gap-2',
+    lg: 'px-8 py-4 text-lg gap-2'
   }
   
   const buttonClasses = clsx(
     baseStyles,
     variants[variant],
     sizes[size],
+    fullWidth && 'w-full',
     className
   )
   
@@ -67,8 +70,9 @@ export default function Button({
       {...props}
     >
       {loading && (
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+        <Loader2 className="w-4 h-4 animate-spin" />
       )}
+      {!loading && leftIcon && leftIcon}
       {children}
     </button>
   )

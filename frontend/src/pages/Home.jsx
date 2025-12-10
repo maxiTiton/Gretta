@@ -118,11 +118,6 @@ export default function Home() {
     },
   ]
   
-  const handleAddToCart = (producto) => {
-    // TODO: Implementar lógica de agregar al carrito
-    console.log('Agregar al carrito:', producto)
-  }
-  
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -238,8 +233,7 @@ export default function Home() {
               <ProductCard
                 key={producto.id}
                 producto={producto}
-                onAddToCart={handleAddToCart}
-                onClick={() => navigate(`/productos/${producto.id}`)}
+                onViewDetail={() => navigate(`/productos/${producto.id}`)}
               />
             ))}
           </div>

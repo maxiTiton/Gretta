@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ShoppingCart, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { clsx } from 'clsx'
-import Badge from '@/components/ui/Badge'
 import Sidebar from './Sidebar'
-// import useCartStore from '@/store/cartStore' // TODO: Descomentar cuando esté implementado
+import CartButton from '@/components/carrito/CartButton'
+import CartDrawer from '@/components/carrito/CartDrawer'
 
 /**
  * Navbar Component
@@ -16,10 +16,6 @@ import Sidebar from './Sidebar'
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
-  
-  // TODO: Conectar con cartStore cuando esté implementado
-  // const cartItemsCount = useCartStore((state) => state.items.length)
-  const cartItemsCount = 0 // Mock
   
   const navLinks = [
     { path: '/', label: 'Inicio' },
@@ -83,20 +79,7 @@ export default function Navbar() {
             {/* Cart & Mobile Menu */}
             <div className="flex items-center gap-4">
               {/* Cart Button */}
-              <Link
-                to="/carrito"
-                className="relative p-2 text-white hover:text-pink transition-colors"
-                aria-label="Ver carrito"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-1 -right-1">
-                    <Badge variant="error" size="sm">
-                      {cartItemsCount}
-                    </Badge>
-                  </span>
-                )}
-              </Link>
+              <CartButton />
               
               {/* Mobile Menu Button */}
               <button
@@ -117,6 +100,9 @@ export default function Navbar() {
         onClose={() => setIsMobileMenuOpen(false)}
         navLinks={navLinks}
       />
+      
+      {/* Cart Drawer */}
+      <CartDrawer />
     </>
   )
 }

@@ -121,12 +121,6 @@ export default function Productos() {
   }, [debouncedSearch, selectedCategory, sortBy])
   
   // Handlers
-  const handleAddToCart = (producto) => {
-    // TODO: Integrar con cartStore de Zustand
-    console.log('Agregar al carrito:', producto)
-    alert(`${producto.nombre} agregado al carrito`)
-  }
-  
   const handleViewDetail = (producto) => {
     // TODO: Navegar a detalle del producto o abrir modal
     console.log('Ver detalle:', producto)
@@ -207,7 +201,6 @@ export default function Productos() {
         {/* Grid */}
         <ProductGrid
           productos={filteredProducts}
-          onAddToCart={handleAddToCart}
           onViewDetail={handleViewDetail}
           loading={loading}
         />

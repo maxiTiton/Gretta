@@ -25,35 +25,47 @@ import ProductCard from '@/components/productos/ProductCard'
 export default function Home() {
   const navigate = useNavigate()
   
-  // Productos destacados mock
+  // Productos destacados mock (usando productos reales de Gretta)
   const productosDestacados = [
     {
-      id: 1,
-      nombre: 'Café Espresso Premium',
-      precio: 1200,
-      imagen: 'https://placehold.co/400x300/2d4a6f/ffffff?text=Cafe+Espresso',
-      badge: 'Destacado',
-    },
-    {
-      id: 2,
-      nombre: 'Helado de Dulce de Leche',
-      precio: 2500,
-      imagen: 'https://placehold.co/400x300/e6a6b8/ffffff?text=Helado+DDL',
-      badge: 'Nuevo',
-    },
-    {
-      id: 3,
-      nombre: 'Torta Red Velvet',
-      precio: 4500,
-      imagen: 'https://placehold.co/400x300/b8d4c8/ffffff?text=Red+Velvet',
-      badge: 'Destacado',
-    },
-    {
       id: 4,
-      nombre: 'Alfajores Artesanales',
-      precio: 800,
-      imagen: 'https://placehold.co/400x300/f5ccd4/ffffff?text=Alfajores',
-      badge: 'Nuevo',
+      nombre: 'Helado 1/4 kg',
+      descripcion: '2 sabores',
+      precio: 9100,
+      imagen_url: 'https://placehold.co/600x450/2d4a6f/ffffff?text=Helado+1%2F4+kg',
+      categoria: 'heladeria',
+      disponible: true,
+      masVendido: true,
+    },
+    {
+      id: 7,
+      nombre: 'Paleta Premium',
+      descripcion: 'Paleta helada premium con cobertura',
+      precio: 6890,
+      imagen_url: 'https://placehold.co/600x450/b8d4c8/1a2332?text=Paleta+Premium',
+      categoria: 'heladeria',
+      disponible: true,
+      masVendido: true,
+    },
+    {
+      id: 10,
+      nombre: 'Pan de Chocolate',
+      descripcion: '1 unidad',
+      precio: 4900,
+      imagen_url: 'https://placehold.co/600x450/f5ccd4/1a2332?text=Pan+Chocolate',
+      categoria: 'laminados',
+      disponible: true,
+      masVendido: true,
+    },
+    {
+      id: 16,
+      nombre: 'Chipá',
+      descripcion: '100 grs',
+      precio: 2600,
+      imagen_url: 'https://placehold.co/600x450/2d4a6f/ffffff?text=Chipa',
+      categoria: 'panificacion',
+      disponible: true,
+      masVendido: true,
     },
   ]
   

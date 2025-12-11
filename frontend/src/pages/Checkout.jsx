@@ -3,11 +3,13 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useCartStore } from '@/store/cartStore'
 import CheckoutForm from '@/components/checkout/CheckoutForm'
 import OrderSummary from '@/components/checkout/OrderSummary'
+import { crearPedido } from '@/services/pedidos.service'
 import { ChevronRight, ShoppingBag } from 'lucide-react'
 
 /**
  * Checkout Page
  * Página de finalización de compra con formulario y resumen
+ * Conectado con Supabase para guardar pedidos
  */
 export default function Checkout() {
   const navigate = useNavigate()
@@ -38,13 +40,14 @@ export default function Checkout() {
     setIsSubmitting(true)
     
     try {
-      // Simular llamada a API (1.5 segundos)
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      console.log('📦 Procesando pedido...', data)
       
-      // Construir objeto de pedido
-      const pedido = {
-        id: `ORD-${Date.now()}`,
-        fecha: new Date().toISOString(),
+      // Calcular envío y total
+      const envio = data.tipoEntrega === 'delivery' && subtotal < 5000 ? 500 : 0
+      const total = subtotal + envio
+      
+      // Construir objeto de pedido para Supabase
+      const pedidoData = {
         cliente: {
           nombre: data.nombre,
           telefono: data.telefono,
@@ -54,40 +57,39 @@ export default function Checkout() {
           productoId: item.producto.id,
           nombre: item.producto.nombre,
           cantidad: item.cantidad,
-          precio: item.producto.precio,
-          imagen: item.producto.imagen_url
+          precioUnitario: item.producto.precio
         })),
-        entrega: {
-          tipo: data.tipoEntrega,
-          direccion: data.direccion || null,
-          referencia: data.referencia || null
-        },
-        pago: {
-          metodo: data.metodoPago
-        },
+        tipoEntrega: data.tipoEntrega,
+        direccion: data.tipoEntrega === 'delivery' ? data.direccion : null,
+        referencia: data.referencia || null,
+        metodoPago: data.metodoPago,
         notas: data.notas || null,
         subtotal: subtotal,
-        envio: data.tipoEntrega === 'delivery' && subtotal < 5000 ? 500 : 0,
-        total: data.tipoEntrega === 'delivery' && subtotal < 5000 ? subtotal + 500 : subtotal,
-        estado: 'pendiente'
+        envio: envio,
+        total: total
       }
       
-      // TODO: Aquí iría la llamada real a la API
-      // const response = await crearPedido(pedido)
+      // Guardar en Supabase
+      const { data: pedidoCreado, error } = await crearPedido(pedidoData)
       
-      // Guardar pedido en localStorage (temporal, hasta integrar backend)
-      localStorage.setItem('ultimo-pedido', JSON.stringify(pedido))
+      if (error) {
+        console.error('❌ Error al crear pedido:', error)
+        alert('Error al crear el pedido. Por favor, intentá de nuevo.')
+        setIsSubmitting(false)
+        return
+      }
+      
+      console.log('✅ Pedido creado exitosamente:', pedidoCreado)
       
       // Limpiar carrito
       clearCart()
       
-      // Navegar a confirmación
-      navigate(`/confirmacion?id=${pedido.id}`)
+      // Navegar a confirmación con número real de Supabase
+      navigate(`/confirmacion?numero=${pedidoCreado.numero_pedido}`)
       
     } catch (error) {
-      console.error('Error al procesar pedido:', error)
-      alert('Hubo un error al procesar tu pedido. Por favor intentá de nuevo.')
-    } finally {
+      console.error('❌ Error inesperado:', error)
+      alert('Error al procesar el pedido. Por favor, intentá de nuevo.')
       setIsSubmitting(false)
     }
   }

@@ -18,7 +18,7 @@ import { useCartStore } from '@/store/cartStore'
  * @param {string} props.producto.descripcion - Descripción del producto
  * @param {number} props.producto.precio - Precio del producto
  * @param {string} props.producto.imagen_url - URL de la imagen
- * @param {string} props.producto.categoria - Categoría del producto
+ * @param {Object} props.producto.categoria - Categoría del producto (objeto con id y nombre)
  * @param {boolean} props.producto.disponible - Si está disponible
  * @param {boolean} [props.producto.masVendido] - Si es más vendido
  * @param {Function} [props.onViewDetail] - Función al ver detalle
@@ -33,7 +33,10 @@ export default function ProductCard({
   const addItem = useCartStore(state => state.addItem)
   const openCart = useCartStore(state => state.openCart)
   
-  // Mapear nombre de categoría
+  // Obtener nombre de categoría (puede venir como objeto de Supabase o como string)
+  const categoriaNombre = typeof categoria === 'object' ? categoria?.nombre : categoria
+  
+  // Mapear nombre de categoría para capitalizar correctamente
   const categoryNames = {
     'heladeria': 'Heladería',
     'pasteleria': 'Pastelería',
@@ -109,7 +112,7 @@ export default function ProductCard({
       <div className="p-4">
         {/* Categoría */}
         <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-          {categoryNames[categoria] || categoria}
+          {categoryNames[categoriaNombre] || categoriaNombre || 'Sin categoría'}
         </p>
         
         {/* Nombre */}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { getPedidoByNumero } from '@/services/pedidos.service'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { 
@@ -9,7 +10,8 @@ import {
   CreditCard, 
   Phone, 
   Home,
-  ShoppingBag 
+  ShoppingBag,
+  Loader2
 } from 'lucide-react'
 import { formatPrice, formatOrderNumber, formatPhone } from '@/utils/formatters'
 import { clsx } from 'clsx'
@@ -17,52 +19,97 @@ import { clsx } from 'clsx'
 /**
  * Confirmacion Page
  * Página de confirmación post-compra con detalles del pedido
+ * Conectado con Supabase para obtener pedidos reales
  */
 export default function Confirmacion() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [pedido, setPedido] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   
   useEffect(() => {
-    // Obtener ID del pedido de la URL
-    const pedidoId = searchParams.get('id')
+    cargarPedido()
+  }, [searchParams])
+  
+  /**
+   * Cargar pedido desde Supabase por número
+   */
+  const cargarPedido = async () => {
+    const numeroPedido = searchParams.get('numero')
     
-    if (!pedidoId) {
-      // Si no hay ID, redirigir al inicio
+    if (!numeroPedido) {
+      console.warn('⚠️ No se proporcionó número de pedido')
       navigate('/', { replace: true })
       return
     }
     
-    // Obtener pedido de localStorage (temporal hasta integrar backend)
-    const ultimoPedido = localStorage.getItem('ultimo-pedido')
+    console.log('📦 Cargando pedido:', numeroPedido)
     
-    if (ultimoPedido) {
-      const pedidoData = JSON.parse(ultimoPedido)
+    try {
+      const { data, error } = await getPedidoByNumero(numeroPedido)
       
-      // Verificar que el ID coincida
-      if (pedidoData.id === pedidoId) {
-        setPedido(pedidoData)
-      } else {
-        navigate('/', { replace: true })
+      if (error) {
+        console.error('❌ Error al cargar pedido:', error)
+        setError('No se pudo cargar el pedido')
+        setLoading(false)
+        return
       }
-    } else {
-      navigate('/', { replace: true })
+      
+      if (!data) {
+        console.warn('⚠️ Pedido no encontrado:', numeroPedido)
+        setError('Pedido no encontrado')
+        setLoading(false)
+        return
+      }
+      
+      console.log('✅ Pedido cargado:', data)
+      setPedido(data)
+      
+    } catch (err) {
+      console.error('❌ Error inesperado:', err)
+      setError('Error al cargar el pedido')
+    } finally {
+      setLoading(false)
     }
-    
-    setLoading(false)
-  }, [searchParams, navigate])
+  }
   
+  // Loading state
   if (loading) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue border-t-transparent" />
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-blue mx-auto mb-4" />
+          <p className="text-gray-600">Cargando pedido...</p>
+        </div>
       </div>
     )
   }
   
-  if (!pedido) {
-    return null
+  // Error state
+  if (error || !pedido) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <Card padding="lg" className="max-w-md text-center">
+          <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-navy mb-2">
+            {error || 'Pedido no encontrado'}
+          </h2>
+          <p className="text-gray-600 mb-6">
+            No pudimos encontrar la información del pedido
+          </p>
+          <Button
+            as={Link}
+            to="/"
+            variant="primary"
+            size="lg"
+            fullWidth
+          >
+            Volver al Inicio
+          </Button>
+        </Card>
+      </div>
+    )
   }
   
   // Mapear nombres
@@ -91,13 +138,13 @@ export default function Confirmacion() {
           </h1>
           
           <p className="text-lg text-gray-600">
-            Gracias por tu compra, <span className="font-semibold text-navy">{pedido.cliente.nombre}</span>
+            Gracias por tu compra, <span className="font-semibold text-navy">{pedido.cliente_nombre}</span>
           </p>
           
           <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue/10 rounded-lg">
             <Package className="w-5 h-5 text-blue" />
             <span className="text-sm font-medium text-blue">
-              Número de pedido: {formatOrderNumber(pedido.id)}
+              Número de pedido: {pedido.numero_pedido}
             </span>
           </div>
         </div>
@@ -111,23 +158,21 @@ export default function Confirmacion() {
           
           {/* Items */}
           <div className="space-y-3 mb-6 pb-6 border-b border-gray-200">
-            {pedido.items.map((item, index) => (
+            {pedido.items?.map((item, index) => (
               <div key={index} className="flex gap-3">
-                <img
-                  src={item.imagen}
-                  alt={item.nombre}
-                  className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
-                />
+                <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center">
+                  <Package className="w-8 h-8 text-gray-400" />
+                </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-navy line-clamp-1">
-                    {item.nombre}
+                    {item.producto_nombre}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    {item.cantidad} × {formatPrice(item.precio)}
+                    {item.cantidad} × {formatPrice(item.precio_unitario)}
                   </p>
                 </div>
                 <span className="font-semibold text-navy">
-                  {formatPrice(item.precio * item.cantidad)}
+                  {formatPrice(item.subtotal)}
                 </span>
               </div>
             ))}
@@ -157,9 +202,12 @@ export default function Confirmacion() {
               <MapPin className="w-5 h-5 text-blue flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-navy">Entrega</h3>
-                <p className="text-gray-600">{deliveryNames[pedido.entrega.tipo]}</p>
-                {pedido.entrega.direccion && (
-                  <p className="text-sm text-gray-500 mt-1">{pedido.entrega.direccion}</p>
+                <p className="text-gray-600">{deliveryNames[pedido.tipo_entrega]}</p>
+                {pedido.cliente_direccion && (
+                  <p className="text-sm text-gray-500 mt-1">{pedido.cliente_direccion}</p>
+                )}
+                {pedido.cliente_referencia && (
+                  <p className="text-xs text-gray-400 mt-1">{pedido.cliente_referencia}</p>
                 )}
               </div>
             </div>
@@ -168,7 +216,7 @@ export default function Confirmacion() {
               <CreditCard className="w-5 h-5 text-blue flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-navy">Método de pago</h3>
-                <p className="text-gray-600">{paymentNames[pedido.pago.metodo]}</p>
+                <p className="text-gray-600">{paymentNames[pedido.metodo_pago]}</p>
               </div>
             </div>
             
@@ -176,9 +224,9 @@ export default function Confirmacion() {
               <Phone className="w-5 h-5 text-blue flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-navy">Contacto</h3>
-                <p className="text-gray-600">{formatPhone(pedido.cliente.telefono)}</p>
-                {pedido.cliente.email && (
-                  <p className="text-sm text-gray-500">{pedido.cliente.email}</p>
+                <p className="text-gray-600">{formatPhone(pedido.cliente_telefono)}</p>
+                {pedido.cliente_email && (
+                  <p className="text-sm text-gray-500">{pedido.cliente_email}</p>
                 )}
               </div>
             </div>
@@ -189,7 +237,7 @@ export default function Confirmacion() {
         <Card padding="md" className="mb-6 bg-blue/5 border-blue/20">
           <h3 className="font-bold text-navy mb-3">Próximos pasos</h3>
           
-          {pedido.entrega.tipo === 'retiro' ? (
+          {pedido.tipo_entrega === 'retiro' ? (
             <div className="space-y-2 text-sm text-gray-700">
               <p>✓ Te contactaremos por WhatsApp para confirmar tu pedido</p>
               <p>✓ Te avisaremos cuando esté listo para retirar</p>
@@ -212,7 +260,7 @@ export default function Confirmacion() {
           <p className="text-sm text-gray-600 text-center">
             Si tenés alguna consulta, contactanos por{' '}
             <a 
-              href={`https://wa.me/54${pedido.cliente.telefono.replace(/\D/g, '')}`}
+              href={`https://wa.me/54${pedido.cliente_telefono.replace(/\D/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue hover:underline font-medium"

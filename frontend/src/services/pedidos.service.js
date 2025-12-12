@@ -128,16 +128,22 @@ export async function getPedidos(filters = {}) {
 /**
  * Actualizar el estado de un pedido
  * @param {string|number} pedidoId - ID del pedido
- * @param {string} nuevoEstado - Nuevo estado
+ * @param {string} nuevoEstado - Nuevo estado ('pendiente', 'preparando', 'listo', 'entregado', 'cancelado')
  * @returns {Promise<{data, error}>}
  */
-export async function updatePedidoEstado(pedidoId, nuevoEstado) {
+export async function actualizarEstadoPedido(pedidoId, nuevoEstado) {
   try {
     const { data, error } = await supabase
       .from('pedidos')
-      .update({ estado: nuevoEstado })
+      .update({ 
+        estado: nuevoEstado,
+        updated_at: new Date().toISOString()
+      })
       .eq('id', pedidoId)
-      .select()
+      .select(`
+        *,
+        items:items_pedido(*)
+      `)
       .single()
 
     if (error) throw error
@@ -147,5 +153,13 @@ export async function updatePedidoEstado(pedidoId, nuevoEstado) {
     console.error('❌ Error al actualizar estado:', error)
     return { data: null, error }
   }
+}
+
+/**
+ * Actualizar el estado de un pedido (alias para compatibilidad)
+ * @deprecated Usar actualizarEstadoPedido en su lugar
+ */
+export async function updatePedidoEstado(pedidoId, nuevoEstado) {
+  return actualizarEstadoPedido(pedidoId, nuevoEstado)
 }
 

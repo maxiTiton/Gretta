@@ -21,6 +21,15 @@ export function formatPrice(price) {
 }
 
 /**
+ * Alias de formatPrice para mayor claridad
+ * @param {number} amount - Monto a formatear
+ * @returns {string} Monto formateado
+ */
+export function formatCurrency(amount) {
+  return formatPrice(amount)
+}
+
+/**
  * Formatear fecha
  * @param {Date|string} date - Fecha a formatear
  * @param {string} formatString - Formato deseado

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
-import { ChevronDown, SlidersHorizontal } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ChevronDown, SlidersHorizontal, ShoppingBag, Home, ChevronRight } from 'lucide-react'
 import SearchBar from '@/components/productos/SearchBar'
 import CategoryFilter from '@/components/productos/CategoryFilter'
 import ProductGrid from '@/components/productos/ProductGrid'
@@ -128,21 +129,36 @@ export default function Productos() {
   }
   
   return (
-    <div className="min-h-screen bg-cream">
-      {/* Header */}
-      <div className="bg-navy text-white py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-sm text-gray-300 mb-3">
-            <a href="/" className="hover:text-white transition-colors">Inicio</a>
-            <span className="mx-2">/</span>
-            <span className="text-white">Productos</span>
-          </nav>
-          <h1 className="text-4xl font-serif font-bold mb-2">Nuestros Productos</h1>
-          <p className="text-lg text-gray-300">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-cream via-cream-50 to-pink-pastel-50 py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Breadcrumb */}
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mb-8">
+            <Link to="/" className="hover:text-blue transition-colors flex items-center gap-1">
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-navy font-medium">Productos</span>
+          </div>
+
+          {/* Hero Icon */}
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 bg-gradient-to-br from-pink to-pink-pastel rounded-full flex items-center justify-center shadow-lg">
+              <ShoppingBag className="w-10 h-10 text-white" />
+            </div>
+          </div>
+
+          {/* Hero Content */}
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-navy mb-4">
+            Nuestros Productos
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Descubrí nuestra variedad de productos artesanales
           </p>
         </div>
-      </div>
+      </section>
       
       {/* Search y Filtros */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">

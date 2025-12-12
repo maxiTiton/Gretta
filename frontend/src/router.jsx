@@ -92,18 +92,22 @@ const router = createBrowserRouter([
         path: 'login',
         element: <Login />,
       },
-      // TODO: Proteger estas rutas con ProtectedRoute
+      // Ruta principal del admin (Dashboard)
+      {
+        index: true,
+        element: <Dashboard />,
+      },
       {
         path: 'dashboard',
         element: <Dashboard />,
       },
       {
-        path: 'productos',
-        element: <ProductosAdmin />,
-      },
-      {
         path: 'pedidos',
         element: <PedidosAdmin />,
+      },
+      {
+        path: 'productos',
+        element: <ProductosAdmin />,
       },
       {
         path: 'promociones',
@@ -112,10 +116,6 @@ const router = createBrowserRouter([
       {
         path: 'configuracion',
         element: <ConfiguracionAdmin />,
-      },
-      {
-        index: true,
-        element: <Navigate to="/admin/dashboard" replace />,
       },
     ],
   },

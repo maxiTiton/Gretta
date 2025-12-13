@@ -35,8 +35,8 @@ import PedidosAdmin from '@/pages/admin/PedidosAdmin'
 import PromosAdmin from '@/pages/admin/PromosAdmin'
 import ConfiguracionAdmin from '@/pages/admin/ConfiguracionAdmin'
 
-// TODO: Implementar ProtectedRoute component para rutas admin
-// import ProtectedRoute from '@/components/ProtectedRoute'
+// Componente de protección de rutas
+import ProtectedRoute from '@/components/admin/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
@@ -105,34 +105,59 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     children: [
+      // Login (sin protección)
       {
         path: 'login',
         element: <Login />,
       },
-      // Ruta principal del admin (Dashboard)
+      // Ruta principal del admin (Dashboard) - PROTEGIDA
       {
         index: true,
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'dashboard',
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'pedidos',
-        element: <PedidosAdmin />,
+        element: (
+          <ProtectedRoute>
+            <PedidosAdmin />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'productos',
-        element: <ProductosAdmin />,
+        element: (
+          <ProtectedRoute>
+            <ProductosAdmin />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'promociones',
-        element: <PromosAdmin />,
+        element: (
+          <ProtectedRoute>
+            <PromosAdmin />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'configuracion',
-        element: <ConfiguracionAdmin />,
+        element: (
+          <ProtectedRoute>
+            <ConfiguracionAdmin />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

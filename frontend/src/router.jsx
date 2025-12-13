@@ -22,6 +22,11 @@ import Promos from '@/pages/Promos'
 import Cumpleaños from '@/pages/Cumpleaños'
 import NotFound from '@/pages/NotFound'
 
+// Páginas de retorno de MercadoPago
+import CheckoutSuccess from '@/pages/checkout/CheckoutSuccess'
+import CheckoutFailure from '@/pages/checkout/CheckoutFailure'
+import CheckoutPending from '@/pages/checkout/CheckoutPending'
+
 // Páginas admin
 import Login from '@/pages/admin/Login'
 import Dashboard from '@/pages/admin/Dashboard'
@@ -57,6 +62,18 @@ const router = createBrowserRouter([
       {
         path: 'checkout',
         element: <Checkout />,
+      },
+      {
+        path: 'checkout/success',
+        element: <CheckoutSuccess />,
+      },
+      {
+        path: 'checkout/failure',
+        element: <CheckoutFailure />,
+      },
+      {
+        path: 'checkout/pending',
+        element: <CheckoutPending />,
       },
       {
         path: 'confirmacion',

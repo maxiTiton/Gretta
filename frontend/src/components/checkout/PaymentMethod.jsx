@@ -34,9 +34,9 @@ export default function PaymentMethod({ value, onChange }) {
       icon: Wallet,
       title: 'MercadoPago',
       description: 'Pagá con tarjeta de crédito/débito',
-      note: 'Próximamente disponible',
-      disabled: true,
-      badge: 'Próximamente'
+      note: 'Pago seguro y en cuotas',
+      disabled: false,
+      badge: null
     }
   ]
   

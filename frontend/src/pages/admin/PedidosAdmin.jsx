@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Search, RefreshCw, Filter, Truck, Store } from 'lucide-react'
+import { Search, RefreshCw, Filter, Truck, Store, ShoppingBag } from 'lucide-react'
 import Sidebar from '@/components/admin/Sidebar'
 import OrderStatusBadge from '@/components/admin/OrderStatusBadge'
 import OrderDetail from '@/components/admin/OrderDetail'
@@ -62,11 +62,14 @@ export default function PedidosAdmin() {
     <div className="min-h-screen bg-cream flex">
       <Sidebar />
       
-      <main className="flex-1 lg:ml-64">
+      <main className="flex-1 transition-all duration-300" style={{ marginLeft: 'var(--sidebar-width, 256px)' }}>
         <div className="p-6 lg:p-8 max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-navy mb-2">Gestión de Pedidos</h1>
+            <h1 className="text-3xl font-bold text-navy mb-2 flex items-center gap-3">
+              <ShoppingBag className="w-8 h-8" />
+              Gestión de Pedidos
+            </h1>
             <p className="text-gray-600">
               Administra y actualiza el estado de todos los pedidos
             </p>

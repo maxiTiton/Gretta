@@ -26,7 +26,7 @@ export default function StatsCard({ title, value, icon: Icon, color = 'blue', lo
           {loading ? (
             <div className="h-8 w-20 bg-gray-200 animate-pulse rounded" />
           ) : (
-            <p className="text-3xl font-bold text-navy">
+            <p className="text-3xl font-bold text-navy truncate">
               {typeof value === 'number' && value >= 1000 
                 ? value.toLocaleString('es-AR')
                 : value

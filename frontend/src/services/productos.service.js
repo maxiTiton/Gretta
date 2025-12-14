@@ -86,3 +86,106 @@ export async function getCategorias() {
   }
 }
 
+/**
+ * Crear nuevo producto
+ * @param {Object} productoData - Datos del producto
+ * @returns {Promise<{data, error}>}
+ */
+export async function crearProducto(productoData) {
+  try {
+    const { data, error } = await supabase
+      .from('productos')
+      .insert([productoData])
+      .select()
+      .single()
+
+    if (error) throw error
+    return { data, error: null }
+  } catch (error) {
+    console.error('Error al crear producto:', error)
+    return { data: null, error }
+  }
+}
+
+/**
+ * Actualizar producto existente
+ * @param {string|number} id - ID del producto
+ * @param {Object} productoData - Datos a actualizar
+ * @returns {Promise<{data, error}>}
+ */
+export async function actualizarProducto(id, productoData) {
+  try {
+    const { data, error } = await supabase
+      .from('productos')
+      .update({
+        ...productoData,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+    return { data, error: null }
+  } catch (error) {
+    console.error('Error al actualizar producto:', error)
+    return { data: null, error }
+  }
+}
+
+/**
+ * Eliminar producto (hard delete)
+ * @param {string|number} id - ID del producto
+ * @returns {Promise<{data, error}>}
+ */
+export async function eliminarProducto(id) {
+  try {
+    const { data, error } = await supabase
+      .from('productos')
+      .delete()
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+    return { data, error: null }
+  } catch (error) {
+    console.error('Error al eliminar producto:', error)
+    return { data: null, error }
+  }
+}
+
+/**
+ * Subir imagen a Supabase Storage
+ * @param {File} file - Archivo de imagen
+ * @param {string|number} productoId - ID del producto
+ * @returns {Promise<{url, error}>}
+ */
+export async function subirImagenProducto(file, productoId) {
+  try {
+    // Generar nombre único
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${productoId}-${Date.now()}.${fileExt}`
+    const filePath = `productos/${fileName}`
+
+    // Subir a storage
+    const { data, error } = await supabase.storage
+      .from('imagenes')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (error) throw error
+
+    // Obtener URL pública
+    const { data: { publicUrl } } = supabase.storage
+      .from('imagenes')
+      .getPublicUrl(filePath)
+
+    return { url: publicUrl, error: null }
+  } catch (error) {
+    console.error('Error al subir imagen:', error)
+    return { url: null, error }
+  }
+}

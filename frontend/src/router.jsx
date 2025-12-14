@@ -32,7 +32,7 @@ import Login from '@/pages/admin/Login'
 import Dashboard from '@/pages/admin/Dashboard'
 import ProductosAdmin from '@/pages/admin/ProductosAdmin'
 import PedidosAdmin from '@/pages/admin/PedidosAdmin'
-import PromosAdmin from '@/pages/admin/PromosAdmin'
+import PromocionesAdmin from '@/pages/admin/PromocionesAdmin'
 import ConfiguracionAdmin from '@/pages/admin/ConfiguracionAdmin'
 
 // Componente de protección de rutas
@@ -147,7 +147,7 @@ const router = createBrowserRouter([
         path: 'promociones',
         element: (
           <ProtectedRoute>
-            <PromosAdmin />
+            <PromocionesAdmin />
           </ProtectedRoute>
         ),
       },

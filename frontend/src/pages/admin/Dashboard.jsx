@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Clock, ChefHat, CheckCircle, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react'
+import { Clock, ChefHat, CheckCircle, DollarSign, ArrowRight, ShieldCheck, LayoutDashboard } from 'lucide-react'
 import Sidebar from '@/components/admin/Sidebar'
 import StatsCard from '@/components/admin/StatsCard'
 import OrderStatusBadge from '@/components/admin/OrderStatusBadge'
@@ -53,12 +53,15 @@ export default function Dashboard() {
     <div className="min-h-screen bg-cream flex">
       <Sidebar />
       
-      <main className="flex-1 lg:ml-64">
+      <main className="flex-1 transition-all duration-300" style={{ marginLeft: 'var(--sidebar-width, 256px)' }}>
         <div className="p-6 lg:p-8 max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <h1 className="text-3xl font-bold text-navy">Panel de Administración</h1>
+              <h1 className="text-3xl font-bold text-navy flex items-center gap-3">
+                <LayoutDashboard className="w-8 h-8" />
+                Panel de Administración
+              </h1>
               <Badge className="bg-pink text-white">
                 <ShieldCheck className="w-4 h-4" />
                 Administrador

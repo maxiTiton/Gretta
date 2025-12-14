@@ -1,15 +1,43 @@
 /**
  * Categorías Service
  * Servicios para gestión de categorías
- * 
- * TODO: Implementar las siguientes funciones:
- * - getCategorias(): obtener todas las categorías
- * - getCategoriaById(id): obtener categoría por ID
- * - createCategoria(data): crear nueva categoría (admin)
- * - updateCategoria(id, data): actualizar categoría (admin)
- * - deleteCategoria(id): eliminar categoría (admin)
  */
 
 import { supabase } from './supabase'
 
-// TODO: Implementar funciones de categorías
+/**
+ * Obtener todas las categorías
+ */
+export async function getCategorias() {
+  try {
+    const { data, error } = await supabase
+      .from('categorias')
+      .select('*')
+      .order('nombre', { ascending: true })
+
+    if (error) throw error
+    return { data, error: null }
+  } catch (error) {
+    console.error('Error al obtener categorías:', error)
+    return { data: null, error }
+  }
+}
+
+/**
+ * Obtener categoría por ID
+ */
+export async function getCategoriaById(id) {
+  try {
+    const { data, error } = await supabase
+      .from('categorias')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (error) throw error
+    return { data, error: null }
+  } catch (error) {
+    console.error('Error al obtener categoría:', error)
+    return { data: null, error }
+  }
+}

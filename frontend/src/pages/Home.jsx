@@ -121,21 +121,35 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-b from-cream to-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden">
+        {/* Imagen de fondo con overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+          style={{ backgroundImage: 'url(/hero-bg.jpg)' }}
+        >
+          {/* Overlay oscuro para legibilidad del texto */}
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/65 via-navy/60 to-navy/75"></div>
+        </div>
+        
+        {/* Contenido */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
           <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-            {/* Logo/Brand */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-navy">
-              Gretta
-            </h1>
+            {/* Logo Circular */}
+            <div className="flex justify-center mb-6">
+              <img
+                src="/logo.jpg"
+                alt="Gretta Logo"
+                className="h-24 w-24 sm:h-32 sm:w-32 rounded-full object-cover shadow-2xl"
+              />
+            </div>
             
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl lg:text-3xl text-blue font-medium">
+            <p className="text-xl sm:text-2xl lg:text-3xl text-cream font-medium drop-shadow-md">
               Cafetería, Heladería y Pastelería de Autor
             </p>
             
             {/* Description */}
-            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
               Sabores únicos hechos con amor y dedicación. Descubrí nuestros productos artesanales.
             </p>
             
@@ -143,17 +157,15 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
               <Button
                 size="lg"
-                variant="primary"
                 onClick={() => navigate('/productos')}
-                className="w-full sm:w-auto min-w-[200px]"
+                className="w-full sm:w-auto min-w-[200px] bg-blue text-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.85)] hover:bg-blue-700 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.95)] transition-all duration-200 font-bold"
               >
                 Ver Productos
               </Button>
               <Button
                 size="lg"
-                variant="outline"
                 onClick={() => navigate('/promos')}
-                className="w-full sm:w-auto min-w-[200px]"
+                className="w-full sm:w-auto min-w-[200px] bg-pink text-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.85)] hover:bg-pink-600 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.95)] transition-all duration-200 font-bold"
               >
                 Nuestras Promos
               </Button>
@@ -161,8 +173,8 @@ export default function Home() {
           </div>
           
           {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <ChevronDown className="w-8 h-8 text-gray-400" />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+            <ChevronDown className="w-8 h-8 text-white/70" />
           </div>
         </div>
       </section>

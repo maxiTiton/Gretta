@@ -36,14 +36,11 @@ export default function Footer() {
           {/* Column 1 - About */}
           <div>
             <Link to="/" className="inline-block mb-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <img
-                  src="/logo.png"
-                  alt="Gretta Logo"
-                  className="h-10 w-auto"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                  }}
+                  src="/logo.jpg"
+                  alt="Gretta"
+                  className="h-12 w-12 rounded-full object-cover"
                 />
                 <span className="text-2xl font-display font-bold">Gretta</span>
               </div>

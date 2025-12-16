@@ -41,17 +41,14 @@ export default function Navbar() {
             {/* Logo / Brand */}
             <Link
               to="/"
-              className="flex items-center gap-2 text-white hover:text-pink transition-colors"
+              className="flex items-center text-white hover:opacity-90 transition-opacity"
             >
               <img
-                src="/logo.png"
-                alt="Gretta Logo"
-                className="h-10 w-auto"
-                onError={(e) => {
-                  e.target.style.display = 'none'
-                }}
+                src="/logo.jpg"
+                alt="Gretta"
+                className="h-10 w-10 rounded-full object-cover"
+                style={{ display: 'block' }}
               />
-              <span className="text-2xl font-display font-bold">Gretta</span>
             </Link>
             
             {/* Desktop Navigation */}

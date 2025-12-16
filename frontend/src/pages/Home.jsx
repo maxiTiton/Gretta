@@ -158,14 +158,38 @@ export default function Home() {
               <Button
                 size="lg"
                 onClick={() => navigate('/productos')}
-                className="w-full sm:w-auto min-w-[200px] bg-blue text-white shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] hover:bg-blue-700 hover:translate-x-[2.5px] hover:translate-y-[2.5px] hover:shadow-[2.5px_2.5px_0px_0px_rgba(255,255,255,1)] transition-all duration-200 font-bold"
+                className="w-full sm:w-auto min-w-[200px] bg-blue text-white hover:bg-blue-700 transition-all duration-200 font-bold"
+                style={{ 
+                  boxShadow: '5px 5px 0px 0px rgba(255,255,255,1)',
+                  transform: 'translate(0, 0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translate(2.5px, 2.5px)'
+                  e.currentTarget.style.boxShadow = '2.5px 2.5px 0px 0px rgba(255,255,255,1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0, 0)'
+                  e.currentTarget.style.boxShadow = '5px 5px 0px 0px rgba(255,255,255,1)'
+                }}
               >
                 Ver Productos
               </Button>
               <Button
                 size="lg"
                 onClick={() => navigate('/promos')}
-                className="w-full sm:w-auto min-w-[200px] bg-pink text-white shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] hover:bg-pink-600 hover:translate-x-[2.5px] hover:translate-y-[2.5px] hover:shadow-[2.5px_2.5px_0px_0px_rgba(255,255,255,1)] transition-all duration-200 font-bold"
+                className="w-full sm:w-auto min-w-[200px] bg-pink text-white hover:bg-pink-600 transition-all duration-200 font-bold"
+                style={{ 
+                  boxShadow: '5px 5px 0px 0px rgba(255,255,255,1)',
+                  transform: 'translate(0, 0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translate(2.5px, 2.5px)'
+                  e.currentTarget.style.boxShadow = '2.5px 2.5px 0px 0px rgba(255,255,255,1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0, 0)'
+                  e.currentTarget.style.boxShadow = '5px 5px 0px 0px rgba(255,255,255,1)'
+                }}
               >
                 Nuestras Promos
               </Button>

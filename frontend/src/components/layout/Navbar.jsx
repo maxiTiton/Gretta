@@ -39,16 +39,16 @@ export default function Navbar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo / Brand */}
-            <Link
-              to="/"
-              className="flex items-center text-white hover:opacity-90 transition-opacity"
-            >
-              <img
-                src="/logo.jpg"
-                alt="Gretta"
-                className="h-10 w-10 rounded-full object-cover"
-                style={{ display: 'block' }}
+            <Link to="/" className="flex items-center gap-2">
+              <img 
+                src="/logo-gretta.png" 
+                alt="Gretta" 
+                className="h-12 w-auto"
               />
+              {/* Opcional: mantener el texto también */}
+              <span className="text-2xl font-bold text-white hidden md:block">
+                Gretta
+              </span>
             </Link>
             
             {/* Desktop Navigation */}

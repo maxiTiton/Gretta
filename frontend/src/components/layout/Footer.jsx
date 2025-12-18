@@ -19,9 +19,8 @@ export default function Footer() {
   ]
   
   const contactInfo = {
-    // TODO: Actualizar con información real del local
-    address: 'Dirección del Local, Ciudad',
-    phone: '+54 9 11 XXXX-XXXX',
+    address: 'Sobremonte 1036, Río Cuarto',
+    phone: '+54 358 612-2255',
     email: 'hola@gretta.com',
     schedule: 'Lun-Sab: 9:00 - 20:00',
     instagram: '@grettago_',
@@ -32,7 +31,7 @@ export default function Footer() {
     <footer className="bg-navy text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Column 1 - About */}
           <div>
             <Link to="/" className="inline-block mb-4">
@@ -83,7 +82,32 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Column 3 - Contact */}
+          {/* Column 3 - Legal */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 font-display">
+              Legal
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="/terminos"
+                  className="text-gray-300 hover:text-pink transition-colors duration-200 inline-block"
+                >
+                  Términos y Condiciones
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacidad"
+                  className="text-gray-300 hover:text-pink transition-colors duration-200 inline-block"
+                >
+                  Política de Privacidad
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Column 4 - Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4 font-display">
               Contacto

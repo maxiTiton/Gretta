@@ -20,6 +20,8 @@ import Info from '@/pages/Info'
 import Beneficios from '@/pages/Beneficios'
 import Promos from '@/pages/Promos'
 import Cumpleaños from '@/pages/Cumpleaños'
+import Terminos from '@/pages/Terminos'
+import Privacidad from '@/pages/Privacidad'
 import NotFound from '@/pages/NotFound'
 
 // Páginas de retorno de MercadoPago
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
       {
         path: 'cumpleanos',
         element: <Cumpleaños />,
+      },
+      {
+        path: 'terminos',
+        element: <Terminos />,
+      },
+      {
+        path: 'privacidad',
+        element: <Privacidad />,
       },
     ],
   },

@@ -58,7 +58,7 @@ export default function Info() {
               {/* Mapa */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27134.84089563954!2d-64.35078!3d-33.13028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95cdff6e4c4ac7f9%3A0xf0b1e7d1e7d1e7d1!2sR%C3%ADo%20Cuarto%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2sar!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!4v1766082898786!6m8!1m7!1sUkqcZQGiohIy5CKMZNb4Iw!2m2!1d-33.12713769943592!2d-64.34952017120001!3f104.87!4f0!5f0.7820865974627469"
                   width="100%"
                   height="400"
                   style={{ border: 0 }}
@@ -80,7 +80,7 @@ export default function Info() {
                       <MapPin className="w-6 h-6 text-pink mt-1 flex-shrink-0" />
                       <div>
                         <p className="text-lg text-gray-700 font-medium">
-                          Av. Example 1234
+                          Sobremonte 1036
                         </p>
                         <p className="text-gray-600">
                           Río Cuarto, Córdoba, Argentina
@@ -95,7 +95,7 @@ export default function Info() {
                           Teléfono
                         </p>
                         <p className="text-gray-600">
-                          +54 9 358 XXX-XXXX
+                          +54 358 612-2255
                         </p>
                       </div>
                     </div>
@@ -141,11 +141,11 @@ export default function Info() {
                   WhatsApp
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  +54 9 358 430-7110
+                  +54 358 612-2255
                 </p>
                 <Button
                   as="a"
-                  href="https://wa.me/543584307110"
+                  href="https://wa.me/5493586122255"
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"

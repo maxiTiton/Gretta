@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import WhatsAppButton from '@/components/ui/WhatsAppButton'
 
 /**
  * Layout Component
@@ -36,6 +37,9 @@ export default function Layout() {
       
       {/* Footer */}
       <Footer />
+      
+      {/* Botón WhatsApp flotante */}
+      <WhatsAppButton />
     </div>
   )
 }

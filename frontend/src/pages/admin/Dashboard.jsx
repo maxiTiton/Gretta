@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, ChefHat, CheckCircle, DollarSign, ArrowRight, ShieldCheck, LayoutDashboard } from 'lucide-react'
 import Sidebar from '@/components/admin/Sidebar'
@@ -16,22 +16,62 @@ import { formatCurrency } from '@/utils/formatters'
 
 export default function Dashboard() {
   const [pedidos, setPedidos] = useState([])
+  const [pedidosAnteriores, setPedidosAnteriores] = useState(0)
   const [loading, setLoading] = useState(true)
+  const audioRef = useRef(null)
 
   useEffect(() => {
+    // Crear elemento de audio
+    audioRef.current = new Audio('/sounds/notification.mp3')
+    
+    // Cargar pedidos inicial
     cargarPedidos()
     
     // Auto-refresh cada 30 segundos
-    const interval = setInterval(cargarPedidos, 30000)
+    const interval = setInterval(() => {
+      cargarPedidosConNotificacion()
+    }, 30000)
+    
     return () => clearInterval(interval)
+  }, [])
+
+  // Solicitar permiso para notificaciones al cargar
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
   }, [])
 
   const cargarPedidos = async () => {
     const { data } = await getPedidos()
     if (data) {
       setPedidos(data)
+      setPedidosAnteriores(data.length)
     }
     setLoading(false)
+  }
+
+  const cargarPedidosConNotificacion = async () => {
+    const { data } = await getPedidos()
+    if (data) {
+      // Si hay más pedidos que antes, reproducir sonido
+      if (data.length > pedidosAnteriores) {
+        audioRef.current?.play().catch(err => {
+          console.log('No se pudo reproducir sonido:', err)
+        })
+        
+        // Opcional: mostrar notificación del navegador
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('Nuevo pedido en Gretta', {
+            body: 'Hay un nuevo pedido esperando',
+            icon: '/logo.jpg'
+          })
+        }
+      }
+      
+      setPedidos(data)
+      setPedidosAnteriores(data.length)
+    }
   }
 
   // Calcular estadísticas

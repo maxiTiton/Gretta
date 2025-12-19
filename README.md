@@ -2,6 +2,16 @@
 
 Sistema web completo para gestión de pedidos online de **Gretta**, cafetería, heladería y pastelería de autor.
 
+## 📚 Documentación Adicional
+
+- 🛒 [Carrito de Compras](./CARRITO_README.md) - Implementación y funcionalidades del carrito
+- 👨‍💼 [Panel Administrativo](./ADMIN_README.md) - Guía del panel admin
+- 🎁 [Promociones](./IMPLEMENTACION_PROMOS_CONFIG.md) - Sistema de promociones y configuración
+- 📦 [Productos con Imágenes](./IMPLEMENTACION_PRODUCTOS_IMAGENES.md) - Cómo agregar productos con fotos
+- 🚀 [Guía Rápida Productos](./GUIA_RAPIDA_PRODUCTOS.md) - Pasos rápidos para cargar productos
+- 📸 [Guía de Imágenes](./PRODUCTOS_IMAGENES_GUIA.md) - Tutorial detallado de carga de imágenes
+- ☁️ [Supabase Storage](./SUPABASE_STORAGE_CONFIG.md) - Configuración de almacenamiento de imágenes
+
 ## 🌟 Características
 
 ### Para Clientes

@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react'
-import { crearProducto, actualizarProducto, subirImagenProducto } from '@/services/productos.service'
+import { Loader2 } from 'lucide-react'
+import { crearProducto, actualizarProducto } from '@/services/productos.service'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import ImageUpload from './ImageUpload'
 
 // Validación con Zod
 const productoSchema = z.object({
@@ -27,9 +28,7 @@ const productoSchema = z.object({
  * Formulario para crear/editar productos
  */
 export default function ProductForm({ producto, categorias, onSuccess, onCancel }) {
-  const [imagenFile, setImagenFile] = useState(null)
-  const [imagenPreview, setImagenPreview] = useState(producto?.imagen_url || null)
-  const [subiendoImagen, setSubiendoImagen] = useState(false)
+  const [imagenUrl, setImagenUrl] = useState(producto?.imagen_url || null)
   const [guardando, setGuardando] = useState(false)
 
   const {
@@ -54,25 +53,6 @@ export default function ProductForm({ producto, categorias, onSuccess, onCancel 
     setGuardando(true)
 
     try {
-      let imagenUrl = producto?.imagen_url
-
-      // Si hay nueva imagen, subirla primero
-      if (imagenFile) {
-        setSubiendoImagen(true)
-        const tempId = producto?.id || Date.now()
-        const { url, error: uploadError } = await subirImagenProducto(imagenFile, tempId)
-        
-        if (uploadError) {
-          alert('Error al subir imagen')
-          setGuardando(false)
-          setSubiendoImagen(false)
-          return
-        }
-        
-        imagenUrl = url
-        setSubiendoImagen(false)
-      }
-
       // Preparar datos
       const productoData = {
         nombre: data.nombre,
@@ -102,39 +82,11 @@ export default function ProductForm({ producto, categorias, onSuccess, onCancel 
       alert('Error al guardar producto')
     } finally {
       setGuardando(false)
-      setSubiendoImagen(false)
     }
   }
 
-  const handleImagenChange = (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    // Validar tamaño (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen debe ser menor a 5MB')
-      return
-    }
-
-    // Validar tipo
-    if (!file.type.startsWith('image/')) {
-      alert('El archivo debe ser una imagen')
-      return
-    }
-
-    setImagenFile(file)
-    
-    // Preview
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      setImagenPreview(reader.result)
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const handleRemoverImagen = () => {
-    setImagenFile(null)
-    setImagenPreview(producto?.imagen_url || null)
+  const handleImageUpload = (url) => {
+    setImagenUrl(url)
   }
 
   return (
@@ -222,53 +174,10 @@ export default function ProductForm({ producto, categorias, onSuccess, onCancel 
               Imagen del Producto
             </label>
             
-            {/* Preview */}
-            <div className="mb-3">
-              {imagenPreview ? (
-                <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-                  <img
-                    src={imagenPreview}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                  {imagenFile && (
-                    <button
-                      type="button"
-                      onClick={handleRemoverImagen}
-                      className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">Sin imagen</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Upload Button */}
-            <label className="block">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImagenChange}
-                className="hidden"
-              />
-              <div className="w-full px-4 py-2 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:bg-gray-50 hover:border-blue transition-colors">
-                <Upload className="w-5 h-5 text-gray-500 mx-auto mb-1" />
-                <span className="text-sm text-gray-600">
-                  {imagenFile ? 'Cambiar imagen' : 'Subir imagen'}
-                </span>
-                <p className="text-xs text-gray-400 mt-1">
-                  PNG, JPG hasta 5MB
-                </p>
-              </div>
-            </label>
+            <ImageUpload
+              currentImage={imagenUrl}
+              onUpload={handleImageUpload}
+            />
           </div>
 
           {/* Checkboxes */}
@@ -319,19 +228,19 @@ export default function ProductForm({ producto, categorias, onSuccess, onCancel 
           onClick={onCancel}
           variant="outline"
           className="flex-1"
-          disabled={guardando || subiendoImagen}
+          disabled={guardando}
         >
           Cancelar
         </Button>
         <Button
           type="submit"
           className="flex-1 bg-blue hover:bg-blue-700"
-          disabled={guardando || subiendoImagen}
+          disabled={guardando}
         >
-          {guardando || subiendoImagen ? (
+          {guardando ? (
             <>
               <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              {subiendoImagen ? 'Subiendo imagen...' : 'Guardando...'}
+              Guardando...
             </>
           ) : (
             producto ? 'Actualizar Producto' : 'Crear Producto'
